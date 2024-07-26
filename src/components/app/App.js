@@ -24,7 +24,6 @@ class App extends Component{
                 <main>
                     {this.state.showRandomChar ? <RandomChar/> : null}
                     <button onClick={this.toggleRandomChar}>Click me</button>
-                    <RandomChar/>
                     <div className="char__content">
                         <CharList/>
                         <CharInfo/>
