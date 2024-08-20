@@ -3,6 +3,8 @@ class MarvelService {
 
     _akiKey = 'apikey=d2e5448ff4da4e09a732da20445bf084'
 
+    _baseOffset = 210;
+
     getResource = async (url) => {
     let res = await fetch(url);
 
@@ -13,8 +15,8 @@ class MarvelService {
         return await res.json();
     }   
 
-    getAllCharacters = async () => {
-      const res = await this.getResource(`${this._apiBase}characters?limit=9&offset=210&${this._akiKey}`);
+    getAllCharacters = async (offset = this._baseOffset) => {
+      const res = await this.getResource(`${this._apiBase}characters?limit=9&offset=${offset}&${this._akiKey}`);
       return res.data.results.map(this._trarnsformCharacter)
     }
 

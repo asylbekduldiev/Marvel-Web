@@ -18,7 +18,13 @@ class CharInfo extends Component {
     marvelService = new MarvelService();
 
     componentDidMount() {
-        this.updateChar();
+        this.onRequest();
+    }
+
+    onRequest = (offset) => {
+        this.marvelService.getAllCharacters(offset)
+            .then(this.onCharListLoaded)
+            .catch(this.onError)
     }
 
     componentDidUpdate(prevProps){
