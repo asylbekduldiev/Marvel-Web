@@ -18,13 +18,7 @@ class CharInfo extends Component {
     marvelService = new MarvelService();
 
     componentDidMount() {
-        this.onRequest();
-    }
-
-    onRequest = (offset) => {
-        this.marvelService.getAllCharacters(offset)
-            .then(this.onCharListLoaded)
-            .catch(this.onError)
+        this.updateChar();
     }
 
     componentDidUpdate(prevProps){
@@ -123,7 +117,7 @@ const View = ({char}) => {
                         return (
                             <li key={i} className="char__comics-item">
                                 {item.name}
-                            </li>   
+                            </li>
                         )
                     })
                 }                
