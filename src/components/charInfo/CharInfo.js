@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, useEffect, useState } from 'react';
 
 import MarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
@@ -7,7 +7,11 @@ import Skeleton from '../skeleton/Skeleton';
 
 import './charInfo.scss';
 
-class CharInfo extends Component {
+const CharInfo = () => {
+
+    const [char, setChar] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
 
     state = {
         char: null,
@@ -17,15 +21,27 @@ class CharInfo extends Component {
 
     marvelService = new MarvelService();
 
-    componentDidMount() {
-        this.updateChar();
-    }
+    useEffect(() => {
+      updateChar()  
+    }, [])
+    // componentDidMount() {
+    //     this.updateChar();
+    // }
 
-    componentDidUpdate(prevProps){
-        if (this.props.charId !== prevProps.charId) {
-            this.updateChar();
-        }
-    }
+
+
+    useEffect(() => {
+        // if (this.props.charId !== prevProps.charId) {
+        //     this.updateChar();
+        // }
+    })
+
+    // componentDidUpdate(prevProps){
+    //     if (this.props.charId !== prevProps.charId) {
+    //         this.updateChar();
+    //     }
+    // }
+
 
     updateChar = () => {
         const {charId} = this.props;
