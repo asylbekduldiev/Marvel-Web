@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Componentm, useState, useEffect } from 'react';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/error.gif';
 import MarvelService from '../../services/MarvelService';
@@ -6,30 +6,33 @@ import MarvelService from '../../services/MarvelService';
 import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
 
-class RandomChar extends Component {
-    constructor(props) {
-        super(props);
-        console.log('constructor')
-    }
+const RandomChar = () => {
+    // constructor(props) {
+    //     super(props);
+    //     console.log('constructor')
+    // }
 
-    state = {
-        char: {},
-        loading: true,
-        error: false
-    }
+    const [char,setChar] = useState({})
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(false)
 
-    marvelService = new MarvelService();
+    // state = {
+    //     char: {},
+    //     loading: true,
+    //     error: false
+    // }
 
-    componentDidMount() {
-        this.updateChar();
-        this.timerId = setInterval(this.updateChar, 3000);
-        console.log('mount');
-    }
+    const marvelService = new MarvelService();
 
-    componentWillUnmount(){
-        console.log('unmount')
-        clearInterval(this.timerId)
-    }
+
+    useEffect (() => {
+        updateChar()
+        const timerId= setInterval(updateChar, 3000)
+
+        return () => {
+            clearInterval(timerId)
+        }
+    },[])
 
     onCharLoaded = (char) => {
         console.log('update')
@@ -54,9 +57,6 @@ class RandomChar extends Component {
             .catch(this.onError);
     }
 
-    render() {
-        console.log('render')
-        const {char, loading, error} = this.state;
         const errorMessage = error ? <ErrorMessage/> : null;
         const spinner = loading ? <Spinner/> : null;
         const content = !(loading || error) ? <View char={char}/> : null;
@@ -81,11 +81,14 @@ class RandomChar extends Component {
                 </div>
             </div>
         )
-    }
 }
 
 const View = ({char}) => {
     const {name, description, thumbnail, homepage, wiki} = char;
+    let imgStyle = {'objectFit' : 'cover'};
+    if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+        imgStyle = {'objectFit' : 'contain'};
+    }
 
     return (
         <div className="randomchar__block">
