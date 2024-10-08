@@ -2,20 +2,23 @@ import {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 
 import Spinner from '../spinner/Spinner';
-import ErrorMessage from '../errorMessage/';
+import ErrorMessage from '../errorMessage/error.gif';
 import MarvelService from '../../services/MarvelService';
 import './charList.scss';
+import { useHttp } from '../../hooks/http.hook';
 
 const CharList = (props) => {
 
     const [charList, setCharList] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
+    // const [loading, setLoading] = useState(true);
+    // const [error, setError] = useState(false);
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [offset, setOffset] = useState(210);
     const [charEnded, setCharEnded] = useState(false);
     
     const marvelService = new MarvelService();
+
+    const {loading, error, getCharacter, clearError} = useMarvelService();
 
     useEffect(() => {
         onRequest();
