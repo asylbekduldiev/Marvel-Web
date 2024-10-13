@@ -19,16 +19,16 @@ const useMarvelService = () => {
     //     return await res.json();
     // }   
 
-    const getAllCharacters = async (offset = this._baseOffset) => {
-      const res = await this.getResource(`${this._apiBase}characters?limit=9&offset=${offset}&${this._akiKey}`);
-      return res.data.results.map(this._trarnsformCharacter)
+    const getAllCharacters = async (offset = _baseOffset) => {
+      const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_akiKey}`);
+      return res.data.results.map(_trarnsformCharacter)
     }
 
     const getCharacter = async (id) => {
-        const res = await this.getResource(`${this._apiBase}characters/${id}?${this._akiKey}`);
-        return this._trarnsformCharacter(res.data.results[0])
+        const res = await request(`${_apiBase}characters/${id}?${_akiKey}`);
+        return _trarnsformCharacter(res.data.results[0])
     }
-    _trarnsformCharacter = (char) => {
+    const _trarnsformCharacter = (char) => {
         return {
             id: char.id,
             name: char.name,

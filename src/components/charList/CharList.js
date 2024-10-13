@@ -62,6 +62,7 @@ const CharList = (props) => {
         itemRefs.current[id].focus();
     }
 
+    
 
     function renderItems(arr) {
         const items =  arr.map((item, i) => {
