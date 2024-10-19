@@ -9,16 +9,6 @@ const useMarvelService = () => {
 
     const _baseOffset = 210;
 
-    // getResource = async (url) => {
-    // let res = await fetch(url);
-
-    // if (!res.ok) {
-    //     throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-    // }
-
-    //     return await res.json();
-    // }   
-
     const getAllCharacters = async (offset = _baseOffset) => {
       const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_akiKey}`);
       return res.data.results.map(_trarnsformCharacter)

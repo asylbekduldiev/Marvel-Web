@@ -6,10 +6,9 @@ import ErrorMessage from '../errorMessage/error.gif';
 import useMarvelService from '../../services/MarvelService';
 import './charList.scss';
 
-
 const CharList = (props) => {
 
-    const [charList, setCharList] = useState([]);
+    const [charList, setCharList] = useState([]); 
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [offset, setOffset] = useState(210);
     const [charEnded, setCharEnded] = useState(false);
@@ -17,11 +16,11 @@ const CharList = (props) => {
     const {loading, error, getAllCharacters} = useMarvelService();
 
     useEffect(() => {
-        onRequest();
+        onRequest(offset, true);
     }, [])
 
-    const onRequest = (offset) => {
-        setNewItemLoading(true)
+    const onRequest = (offset, initial) => {
+        initial ? setNewItemLoading(false) : setNewItemLoading(true) 
         getAllCharacters(offset)
             .then(onCharListLoaded)
     }
@@ -46,8 +45,6 @@ const CharList = (props) => {
         itemRefs.current[id].classList.add('char__item_selected');
         itemRefs.current[id].focus();
     }
-
-    
 
     function renderItems(arr) {
         const items =  arr.map((item, i) => {
@@ -88,14 +85,13 @@ const CharList = (props) => {
     const items = renderItems(charList);
 
     const errorMessage = error ? <ErrorMessage/> : null;
-    const spinner = loading ? <Spinner/> : null;
-    const content = !(loading || error) ? items : null;
+    const spinner = loading && !newItemLoading ? <Spinner/> : null;
 
     return (
         <div className="char__list">
             {errorMessage}
             {spinner}
-            {content}
+            {item}
             <button 
                 className="button button__main button__long"
                 disabled={newItemLoading}
