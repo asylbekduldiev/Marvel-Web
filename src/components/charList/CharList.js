@@ -24,6 +24,7 @@ const CharList = (props) => {
         getAllCharacters(offset)
             .then(onCharListLoaded)
     }
+    
 
     const onCharListLoaded = (newCharList) => {
         let ended = false;
@@ -91,7 +92,7 @@ const CharList = (props) => {
         <div className="char__list">
             {errorMessage}
             {spinner}
-            {item}
+            {items}
             <button 
                 className="button button__main button__long"
                 disabled={newItemLoading}
