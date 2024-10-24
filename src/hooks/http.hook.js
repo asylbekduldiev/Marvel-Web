@@ -26,6 +26,7 @@ export const useHttp = () => {
             setError(e.message)
             throw e;
         }
+    
 
     }, [])
 
@@ -33,6 +34,4 @@ export const useHttp = () => {
 
     return {loading, request, error, clearError}
     
-
-
 }
