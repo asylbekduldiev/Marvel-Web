@@ -5,17 +5,17 @@ const useMarvelService = () => {
 
     const _apiBase = 'https://gateway.marvel.com:443/v1/public/'
 
-    const _akiKey = 'apikey=d2e5448ff4da4e09a732da20445bf084'
+    const _apiKey = 'apikey=d2e5448ff4da4e09a732da20445bf084'
 
     const _baseOffset = 210;
 
     const getAllCharacters = async (offset = _baseOffset) => {
-      const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_akiKey}`);
+      const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`);
       return res.data.results.map(_trarnsformCharacter)
     }
 
     const getCharacter = async (id) => {
-        const res = await request(`${_apiBase}characters/${id}?${_akiKey}`);
+        const res = await request(`${_apiBase}characters/${id}?${_apiKey}`);
         return _trarnsformCharacter(res.data.results[0])
     }
 
@@ -42,7 +42,7 @@ const useMarvelService = () => {
 
     }
 
-    const _trarnsformComics = (char) =>{
+    const _trarnsformComics = (comics) =>{
         return {
 			id: comics.id,
 			title: comics.title,
@@ -52,14 +52,12 @@ const useMarvelService = () => {
 				: "No information about the number of pages",
 			thumbnail: comics.thumbnail.path + "." + comics.thumbnail.extension,
 			language: comics.textObjects[0]?.language || "en-us",
-			// optional chaining operator
 			price: comics.prices[0].price
 				? `${comics.prices[0].price}$`
 				: "not available",
         }
 
     }
-
 
     return {
         loading,
@@ -72,4 +70,4 @@ const useMarvelService = () => {
     }
 }
 
-export default useMarvelService;ª
+export default useMarvelService;
