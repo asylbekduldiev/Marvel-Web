@@ -56,7 +56,6 @@ const useMarvelService = () => {
 				? `${comics.prices[0].price}$`
 				: "not available",
         }
-
     }
 
     return {
