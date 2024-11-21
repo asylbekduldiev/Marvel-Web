@@ -1,33 +1,46 @@
-import './comicsList.scss';
-import uw from '../../resources/img/UW.png';
-import xMen from '../../resources/img/x-men.png';
-import { useEffect, useState } from 'react';
+import {useState, useEffect} from 'react';
 import useMarvelService from '../../services/MarvelService';
+import Spinner from '../spinner/Spinner';
+import ErrorMessage from '../errorMessage/ErrorMessage';
+
+import './comicsList.scss';
 
 const ComicsList = () => {
-    const[comicsList, setComicsList] = useState([])
-    const[newItemLoading, setNewItemLoading] = useState(false)
-    const[offset, setOffset] = useState(0)
-    const[comicsEnded, setComicsEnded] = useState(false)
 
-    const [loading, error, getAllComics] = useMarvelService()
+    const [comicsList, setComicsList] = useState([]);
+    const [newItemLoading, setnewItemLoading] = useState(false);
+    const [offset, setOffset] = useState(0);
+    const [comicsEnded, setComicsEnded] = useState(false);
+
+    const {loading, error, getAllComics} = useMarvelService();
 
     useEffect(() => {
-        onRequest(offset, true)
-    },[])
+        onRequest(offset, true);
+    }, [])
 
     const onRequest = (offset, initial) => {
-        initial ? setNewItemLoading(false) : setNewItemLoading(true)
-        getAllComics.then(onComicsListLoaded)
+        initial ? setnewItemLoading(false) : setnewItemLoading(true);
+        getAllComics(offset)
+            .then(onComicsListLoaded)
     }
 
     const onComicsListLoaded = (newComicsList) => {
-        setComicsList(prevComicsList => [...prevComicsList, ...newComicsList]);
-        setNewItemLoading(false);
-        setOffset(prevOffset => prevOffset + 8);
-        setComicsEnded(newComicsList.length < 8);
-    };
+        let ended = false;
+        if (newComicsList.length < 8) {
+            ended = true;
+        }
+        setComicsList([...comicsList, ...newComicsList]);
+        setnewItemLoading(false);
+        setOffset(offset + 8);
+        setComicsEnded(ended);
+    }
 
+    // function showModalByScroll() {
+    //     if (window.scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight -1){
+    //         onRequest(offset)
+    //     }
+    // }
+    // window.addEventListener('scroll', showModalByScroll)
 
     function renderItems (arr) {
         const items = arr.map((item, i) => {
@@ -69,6 +82,5 @@ const ComicsList = () => {
         </div>
     )
 }
-
 
 export default ComicsList;
